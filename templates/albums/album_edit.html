@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="album-form-container" style="max-width: 800px; margin: 0 auto; padding: 30px; background: white; border-radius: var(--border-radius); box-shadow: var(--box-shadow); border: 1px solid #e0e0e0;">
+    <h1 style="margin-bottom: 25px; color: var(--primary-color);">
+        {% if form.instance.pk %}Редактировать альбом{% else %}Новый альбом{% endif %}
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-fields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            {% for field in form %}
+            <div class="form-group" style="margin-bottom: 20px;">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message" style="color: #000000; font-size: 0.9rem; background: #f0f0f0; padding: 5px; border-radius: 4px;">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-actions" style="margin-top: 30px; display: flex; gap: 15px;">
+            <button type="submit" class="btn">Сохранить</button>
+            <a href="{% url 'album_list' %}" class="btn" style="background-color: #666666;">Отмена</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        margin-top: 5px;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        display: block;
+        margin-bottom: 5px;
+        color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+        .form-fields {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}
