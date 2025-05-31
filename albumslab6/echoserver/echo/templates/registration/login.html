@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 500px; margin: 50px auto; padding: 30px; background: white; border-radius: var(--border-radius); box-shadow: var(--box-shadow); border: 1px solid #e0e0e0;">
+    <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary-color);">Вход в систему</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="error-message" style="color: #000000; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: var(--border-radius); border-left: 4px solid #666666;">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="id_username" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--primary-color);">Имя пользователя:</label>
+            <input type="text" name="username" id="id_username" required
+                   style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: var(--border-radius); font-size: 1rem;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 25px;">
+            <label for="id_password" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--primary-color);">Пароль:</label>
+            <div style="position: relative;">
+                <input type="password" name="password" id="id_password" required
+                       style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: var(--border-radius); font-size: 1rem;">
+                <button type="button" class="toggle-password" onclick="togglePassword('id_password')"
+                        style="background: none; border: none; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                    👁️
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 1rem;">Войти</button>
+    </form>
+    <p style="text-align: center; margin-top: 20px; color: var(--light-text);">
+        Ещё нет аккаунта? <a href="{% url 'register' %}" style="color: var(--primary-color); text-decoration: none;">Зарегистрируйтесь</a>
+    </p>
+</div>
+
+<script>
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+        input.setAttribute('type', type);
+    }
+</script>
+{% endblock %}
+
